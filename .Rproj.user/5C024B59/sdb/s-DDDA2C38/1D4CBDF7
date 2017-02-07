@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\nlibrary(shinythemes)\nlibrary(Biobase)\nlibrary(threejs)\n\neset <- readRDS(\"./data/eset_scde.rds\")\ntsne <- readRDS(\"data/tsne_pre.rds\")\n\ntextareaInput <- function(id, label, value, rows=20, cols=35, class=\"form-control\"){\n  tags$div(\n    class=\"form-group shiny-input-container\",\n    tags$label('for'=id,label),\n    tags$textarea(id=id,class=class,rows=rows,cols=cols,value))\n}\n\n\nshinyUI(\n  fluidPage(\n    theme = shinytheme(\"slate\"),\n    tags$head(\n      tags$style(\n        \".selectize-dropdown, .selectize-input, .selectize-input { \n           line-height: 23px; \n        }\"\n      )\n    ),\n    titlePanel(\"Heart Tube e10.5\"),\n  \n    sidebarLayout(\n      sidebarPanel(width=3,\n        textareaInput(id=\"genes\", label=\"Enter some genes\", value=\"NKX2-5\", rows=3),\n        selectInput(\"color_by\", \"Color by:\", c(\"None\", \"Genes\", colnames(pData(eset))), selected = \"Zone\", multiple = FALSE),\n        selectInput(\"shape_by\", \"Shape by:\", c(\"None\", \"Genes\", colnames(pData(eset))), selected = \"None\", multiple = FALSE),\n        selectInput(\"size_by\", \"Size by:\", c(\"None\", \"Genes\", colnames(pData(eset))), selected = \"None\", multiple = FALSE),\n  \n        div(\n          div(style=\"display: inline-block;vertical-align:top;\", textInput(\"filter1\", label=\"Filter\", width=100)),\n          div(style=\"display: inline-block;vertical-align:top;\", selectInput(\"op1\", label=\"Op\", choices=c(\"<\", \">\"), width=60)),\n          div(style=\"display: inline-block;vertical-align:top;\", textInput(\"val1\", label=\"Threshold\", width=100))\n        ),\n        div(\n          div(style=\"display: inline-block;vertical-align:top;\", textInput(\"filter2\", label=\"Filter\", width=100)),\n          div(style=\"display: inline-block;vertical-align:top;\", selectInput(\"op2\", label=\"Op\", choices=c(\"<\", \">\"), width=60)),\n          div(style=\"display: inline-block;vertical-align:top;\", textInput(\"val2\", label=\"Threshold\", width=100))\n        )\n      ),\n  \n      # Show a plot of the generated distribution\n      mainPanel(\n        tabsetPanel(\n          tabPanel(\"Plot\",     \n             fluidRow(\n               column(12, plotOutput(\"densityPlot\"))\n             ),\n             fluidRow(\n               column(6, plotOutput(\"distPlot\")),\n               column(6, plotOutput(\"distPlot2\"))\n             )\n          ),\n          tabPanel(\"X vs. Y\",\n              plotOutput(\"xy\")\n          ),\n          tabPanel(\"3D\",\n               scatterplotThreeOutput(\"three\", height=\"800px\")\n          )\n          \n        )\n      )\n    )\n#      h3(textOutput(\"caption\", container = span)),\n#      plotOutput(\"densityPlot\"),\n#      plotOutput(\"distPlot\"),\n#      plotOutput(\"distPlot2\")\n#    )\n#  )\n))\n\n# verbatimTextOutput(\"summary\")\n\n",
+    "created" : 1485573552266.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3589043824",
+    "id" : "1D4CBDF7",
+    "lastKnownWriteTime" : 1486486585,
+    "last_content_update" : 1486486585533,
+    "path" : "~/projects/tubular/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
